@@ -1,0 +1,80 @@
+
+
+<div id="miDivHEV4" class="col bg-default contenedorA">
+    <div class="card div-baseA shadow-none border-secondary rounded-0 border border-dashed mb-0">
+        <div class="card-body ">
+            <div class="row">
+                <a href="#" class="link-reset bg-transparent bg-opacity-0 text-uppercase fw-semibold fs-lg" style="text-align: left; border: 0px;"> 
+                     @ViewBag.Line 
+                     <button class="topbar-link dropdown-toggle drop-arrow-none bg-opacity-0" style="position: sticky; left: 100%" type="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bell" class="lucide lucide-bell fs-xxl"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg>
+                        <span class="badge badge-square text-bg-warning topbar-badge">14</span>
+                    </button>
+                </a>
+                
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">Parts Produced </span><br>
+                    <span class="fs-sm fw-bold me-2"><span id="PartsProduced"></span></span>
+                </div>
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">Scrap </span><br>
+                    <span class="fs-sm fw-bold me-2"><span id="Scrap"></span></span>
+                </div>
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">DownTime </span><br>
+                    <span class="fs-sm fw-bold me-2"><span data-target="99.9"><i id="Downtime" class="ti ti-stopwatch"></i> </span> <i class="text-muted fs-12"> MIN</i></span>
+                </div>
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">OA </span><br>
+                    <span class="fs-sm fw-bold me-2"><span id="OA"></span></span>
+                </div>
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">MTTR </span><br>
+                    <span class="fs-sm fw-bold me-2"><span id="MTTR"></span></span>
+                </div>
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">MTBF </span><br>
+                    <span class="fs-sm fw-bold me-2"><span id="MTBF"></span></span>
+                </div>
+                <div class="@ViewBag.ClassName"> 
+                    <span class="fw-semibold text-muted fs-7">STATUS </span><br>
+                    <span class="fs-sm fw-bold me-2"><span id="Status"></span></span>
+                </div>
+                <div class="row"> 
+                    <p class="text-muted mb-2 text-truncate"><span>PRODUCTION TIMELINE</span></p>
+                    <div class="progress bg-secondary bg-opacity-50">
+                        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-danger" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-warning" role="progressbar" style="width: 15%" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                   
+            </div>
+            
+            
+        </div>
+    </div>
+</div><!-- end col -->
+
+<script>
+    $(document).ready(function(){
+
+        $.getJSON("http://localhost:9089/system/webdev/Main/API/Operation/getLinePerLine?line=plant/line4", function(data){ 
+            $.each(data.dataJSON, function(index, element){
+                $("[id='"+ element.name +"']").text(element.value);
+            });
+            
+        });
+
+        setInterval(function(){
+            $.getJSON("http://localhost:9089/system/webdev/Main/API/Operation/getLinePerLine?line=plant/line4", function(data){ 
+                $.each(data.dataJSON, function(index, element){
+                    $("[id='"+ element['name'] +"']").text(element['value']);
+                    element['name'] == 'Status' ?  $("[id='line4']").css('animation', ''+ element['value'] +' 1s infinite alternate'): ''
+                }); 
+            });  
+           
+        }, 1000);
+        
+    });
+</script>

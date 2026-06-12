@@ -1,0 +1,181 @@
+@model List<FULL.Models.UsuarioViewModel>
+
+<!-- Contenedor Principal con el estilo oscuro de la imagen -->
+<div class="p-4 min-vh-100" style="background-color: #262a3e; color: #f5f5f6;">
+
+    <!-- GRILLA DE TARJETAS DE USUARIOS -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="row g-4">
+            @foreach (var usuario in Model)
+            {
+                <!-- Intentar parsear el rating numérico para las estrellas (Default 5 si falla) -->
+                double ratingValor = 5.0;
+                double.TryParse(usuario.Rating, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out ratingValor);
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card border-0 h-100" style="background-color: #171821; color: #f5f5f6; border-radius: 8px;">
+                        <div class="card-body p-4 d-flex flex-column justify-content-between">
+                            
+                            <div>
+                                <!-- Encabezado: Avatar, Info y Opciones -->
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="me-3 position-relative flex-shrink-0">
+                                        <img src="@Url.Content(usuario.Avatar)" alt="avatar" class="rounded-circle" width="64" height="64" style="object-fit: cover;">
+                                        <!-- Badge de Estrella recortado como en la imagen -->
+                                        <span class="position-absolute bottom-0 end-0 badge rounded-circle p-0 d-flex align-items-center justify-content-center" 
+                                              style="background-color: #00b69b; width: 22px; height: 22px; border: 3px solid #171821;">
+                                            <i class="ti ti-star-filled text-white" style="font-size: 9px;"></i>
+                                        </span>
+                                    </div>
+                                    
+                                    <div class="flex-grow-1 min-w-0">
+                                        <h6 class="mb-1 d-flex align-items-center text-white fw-semibold text-truncate">
+                                            <!-- Datos incluidos: Nombre y Nombre de Usuario -->
+                                            <a href="#" class="text-white text-decoration-none me-2 text-truncate" title="Username: @usuario.Username">@usuario.Name</a>
+                                            <img src="@Url.Content($"~/images/flags/{usuario.Flag}.svg")" alt="Flag" class="rounded-circle flex-shrink-0" height="14" width="14" style="object-fit: cover;">
+                                        </h6>
+                                        <!--<p class="mb-2 text-truncate" style="color: #92959a; font-size: 13px;">@usuario.Title</p>-->
+                                        
+                                        <!-- Contenedor para Badge Principal, Roles Múltiples y Estrellitas -->
+                                        <div class="d-flex flex-column gap-2">
+                                            
+                                            <!-- Badge de Rol Principal o Acceso -->
+                                            @if (!string.IsNullOrEmpty(usuario.Badge))
+                                            {
+                                                <span class="badge px-2 py-1 text-truncate align-self-start" style="background-color: #21222d; color: #a4a6b3; font-size: 11px; font-weight: 500; border-radius: 4px; max-width: 100%;">
+                                                    @usuario.Badge
+                                                </span>
+                                            }
+
+                                            <!-- 🎖️ NUEVOS BADGES BONITOS DE ROLES DINÁMICOS -->
+                                            @if (usuario.Roles != null && usuario.Roles.Any())
+                                            {
+                                                <div class="d-flex flex-wrap gap-1">
+                                                    @foreach (var rol in usuario.Roles)
+                                                    {
+                                                        // Lógica de color según el rol
+                                                        string bgStyle = "background-color: rgba(36, 123, 247, 0.15); color: #247bf7;"; // Default Azul
+                                                        
+                                                        if (rol.Contains("Admin", StringComparison.OrdinalIgnoreCase) || rol.Contains("Leader", StringComparison.OrdinalIgnoreCase))
+                                                        {
+                                                            bgStyle = "background-color: rgba(234, 84, 85, 0.15); color: #ea5455;"; // Rojo suave
+                                                        }
+                                                        else if (rol.Contains("Group", StringComparison.OrdinalIgnoreCase) || rol.Contains("Team", StringComparison.OrdinalIgnoreCase))
+                                                        {
+                                                            bgStyle = "background-color: rgba(255, 159, 67, 0.15); color: #ff9f43;"; // Naranja suave
+                                                        }
+                                                        else if (rol.Contains("User", StringComparison.OrdinalIgnoreCase))
+                                                        {
+                                                            bgStyle = "background-color: rgba(40, 199, 111, 0.15); color: #28c76f;"; // Verde suave
+                                                        }
+
+                                                        <span class="badge px-2 py-0.5 rounded" style="@bgStyle font-size: 10px; font-weight: 600;">
+                                                            @rol
+                                                        </span>
+                                                    }
+                                                </div>
+                                            }
+
+                                            <!-- Estrellitas y Rating Numérico -->
+                                            <div class="d-flex align-items-center text-warning small flex-shrink-0" style="font-size: 11px;">
+                                                <div class="me-1 d-flex gap-0.5">
+                                                    @for (int i = 1; i <= 5; i++)
+                                                    {
+                                                        if (i <= Math.Floor(ratingValor))
+                                                        {
+                                                            <i class="ti ti-star-filled text-warning"></i>
+                                                        }
+                                                        else if (i == Math.Ceiling(ratingValor) && ratingValor % 1 != 0)
+                                                        {
+                                                            <i class="ti ti-star-half-filled text-warning"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="ti ti-star" style="color: #4a4a6a;"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                                <span class="fw-semibold ms-1" style="color: #a4a6b3;">(@usuario.Rating)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Menú de Opciones (Dropdown) -->
+                                    <div class="ms-2 flex-shrink-0">
+                                        <div class="dropdown">
+                                            <a href="#" class="btn p-0 border-0" data-bs-toggle="dropdown" style="color: #646775;">
+                                                <i class="ti ti-dots-vertical fs-5"></i>
+                                            </a>
+                                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" style="background-color: #21222d; border-color: #2b2c3a;">
+                                                <li><a class="dropdown-item" href="#"><i class="ti ti-share me-2"></i>Share</a></li>
+                                                <li><a class="dropdown-item" href="#"><i class="ti ti-edit me-2"></i>Edit</a></li>
+                                                <li><hr class="dropdown-divider" style="border-color: rgba(255,255,255,0.08);"></li>
+                                                <li><a class="dropdown-item text-danger" href="#"><i class="ti ti-trash me-2"></i>Delete</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Detalles de Contacto Completos -->
+                                <div class="mb-4" style="font-size: 13px;">
+                                    <!-- Nombre de Usuario (Username) -->
+                                    <div class="d-flex align-items-center mb-3 text-truncate">
+                                        <i class="ti ti-user me-3 flex-shrink-0" style="color: #646775; font-size: 16px;"></i>
+                                        <span class="text-truncate" style="color: #a4a6b3;">@usuario.Username</span>
+                                    </div>
+                                    <!-- Correo Electrónico (Email) -->
+                                    <div class="d-flex align-items-center mb-3 text-truncate">
+                                        <i class="ti ti-mail me-3 flex-shrink-0" style="color: #646775; font-size: 16px;"></i>
+                                        <span class="text-truncate" style="color: #a4a6b3;">@usuario.Email</span>
+                                    </div>
+                                    <!-- Teléfono (Phone) -->
+                                    <div class="d-flex align-items-center mb-3 text-truncate">
+                                        <i class="ti ti-phone me-3 flex-shrink-0" style="color: #646775; font-size: 16px;"></i>
+                                        <span class="text-truncate" style="color: #a4a6b3;">@usuario.Phone</span>
+                                    </div>
+                                    <!-- Ubicación (Location) -->
+                                    <div class="d-flex align-items-center mb-3 text-truncate">
+                                        <i class="ti ti-map-pin me-3 flex-shrink-0" style="color: #646775; font-size: 16px;"></i>
+                                        <span class="text-truncate" style="color: #a4a6b3;">@usuario.Location</span>
+                                    </div>
+                                    <!-- Idioma (Language) -->
+                                    <div class="d-flex align-items-center mb-3 text-truncate">
+                                        <i class="ti ti-world me-3 flex-shrink-0" style="color: #646775; font-size: 16px;"></i>
+                                        <span class="text-truncate" style="color: #a4a6b3;">@usuario.Language</span>
+                                    </div>
+                                    <!-- Sitio Web (Website) -->
+                                    <div class="d-flex align-items-center mb-1 text-truncate">
+                                        <i class="ti ti-link me-3 flex-shrink-0" style="color: #646775; font-size: 16px;"></i>
+                                        <a href="https://@usuario.Website" target="_blank" class="text-decoration-none text-truncate" style="color: #00b69b;">@usuario.Website</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Footer: Última Actualización y Botón -->
+                            <div class="d-flex align-items-center justify-content-between pt-3 border-top" style="border-color: rgba(255,255,255,0.05) !important;">
+                                <div class="d-flex align-items-center flex-shrink-1 min-w-0 me-2" style="color: #646775; font-size: 12px;">
+                                    <i class="ti ti-refresh me-2 flex-shrink-0"></i>
+                                    <span class="text-truncate">@usuario.UpdatedText</span>
+                                </div>
+                                <a href="#" class="btn btn-sm rounded-pill px-3 fw-medium flex-shrink-0 d-inline-flex align-items-center justify-content-center" 
+                                    style="background-color: #1a3c3a; color: #1bd0a4; font-size: 13px; height: 36px; border: none;">
+                                    View Profile
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <!-- Mensaje de control si la lista de usuarios está vacía -->
+        <div class="text-center py-5 text-muted">
+            <i class="ti ti-users fs-1 mb-2"></i>
+            <p>No contacts found.</p>
+        </div>
+    }
+</div>

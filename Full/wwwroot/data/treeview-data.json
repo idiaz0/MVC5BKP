@@ -1,0 +1,108 @@
+[
+        {
+            "children": [
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_11",
+                    "text": "location"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_12",
+                    "text": "sensor01"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_13",
+                    "text": "sensor02"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_14",
+                    "text": "op10"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_15",
+                    "text": "BA2MD00010"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_16",
+                    "text": "BA2MD00020"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_17",
+                    "text": "BA2MD00030"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_18",
+                    "text": "op20"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_19",
+                    "text": "BA2MD00010"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_110",
+                    "text": "BA2MD00020"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_111",
+                    "text": "BA2MD00030"
+                }
+            ],
+            "icon": "ti ti-folder-filled text-warning fs-lg",
+            "id": "node_1",
+            "text": "line1"
+        },
+        {
+            "children": [
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_21",
+                    "text": "location"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_22",
+                    "text": "sensor01"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_23",
+                    "text": "sensor02"
+                }
+            ],
+            "icon": "ti ti-folder-filled text-warning fs-lg",
+            "id": "node_2",
+            "text": "line2"
+        },
+        {
+            "children": [
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_31",
+                    "text": "location"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_32",
+                    "text": "sensor01"
+                },
+                {
+                    "icon": "ti ti-folder-filled text-warning fs-lg",
+                    "id": "node_33",
+                    "text": "sensor02"
+                }
+            ],
+            "icon": "ti ti-folder-filled text-warning fs-lg",
+            "id": "node_3",
+            "text": "line3"
+        }
+    ]

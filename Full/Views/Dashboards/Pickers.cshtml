@@ -1,0 +1,250 @@
+
+@{
+    ViewBag.Title = "Pickers";
+    ViewBag.SubTitle = "Forms";
+}
+<link rel="stylesheet" href="~/plugins/daterangepicker/daterangepicker.css" type="text/css">
+
+<div class="container-fluid">
+    @await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-12">
+            
+
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Flatpickr</h4>
+                </div>
+
+                <div class="card-body">
+                    <p class="text-muted mb-2">
+                        Lightweight, powerful javascript datetimepicker with no dependencies
+                    </p>
+
+                    <a class="btn btn-link p-0 fw-semibold" href="https://flatpickr.js.org/" target="_blank">
+                        Flatpickr on View Official Website
+                        <i class="ti ti-chevron-right ms-1"></i>
+                    </a>
+                </div>
+
+                <div class="border-top border-dashed"></div>
+
+                <div class="card-body">
+                    <h4 class="card-title fs-sm fw-bold mb-4"> Datepicker</h4>
+                    <!-- Basic -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Basic</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-date-format="d M, Y"</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y H:m">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- DateTime -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>DateTime</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-date-format="d.m.y" data-enable-time</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d.m.y" data-enable-time>
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Human-Friendly Dates -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Human-Friendly Dates</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-altFormat="F j, Y"</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control flatpickr-input" data-provider="flatpickr" data-altFormat="F j, Y">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- MinDate and MaxDate -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>MinDate and MaxDate</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-date-format="d M, Y" data-minDate="..." data-maxDate="..."</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-minDate="25 12, 2021" data-maxDate="29 12,2021" placeholder="Select Date">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Default Date -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Default Date</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-date-format="d M, Y" data-default-date="..."</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-default-date="25 12,2021">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Disabling Dates -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Disabling Dates</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-disable-date="..."</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-disable-date="15 12,2021">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Selecting Multiple Dates -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Selecting Multiple Dates</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-multiple-date="true"</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-multiple-date="true">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Range -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Range</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-range-date="true"</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-range-date="true">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Week Numbers -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Week Numbers</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-week-number</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-week-number>
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Inline -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Inline</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="flatpickr" data-inline-date="true"</code>.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="flatpickr" data-date-format="d M, Y" data-default-date="25 01,2021" data-inline-date="true">
+                        </div>
+                    </div>
+
+                </div><!-- end card-body -->
+
+                <div class="border-top border-dashed"></div>
+
+                <div class="card-body">
+                    <h4 class="card-title fs-sm fw-bold mb-4">Timepicker</h4>
+
+                    <!-- Timepicker -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Timepicker</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="timepickr" data-time-basic="true"</code> attribute.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="timepickr" data-time-basic="true" id="timepicker-example" placeholder="Select Time">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- 24-hour Time Picker -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>24-hour Time Picker</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="timepickr" data-time-hrs="true"</code> attribute.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="timepickr" data-time-hrs="true" id="timepicker-24hrs" placeholder="Select Time">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Time Picker w/ Limits -->
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Time Picker w/ Limits</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="timepickr" data-min-time="Min.Time" data-max-time="Max.Time"</code> attribute.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="timepickr" data-min-time="13:00" data-max-time="16:00" placeholder="Select Time">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    <!-- Preloading Time 
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Preloading Time</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="timepickr" data-default-time="Your Default Time"</code> attribute.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="timepickr" data-default-time="16:45">
+                        </div>
+                    </div>
+
+                    <div class="my-4 border-top border-dashed"></div>
+
+                    Inline 
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <h5>Inline</h5>
+                            <p class="text-muted mb-0">Set <code>data-provider="timepickr" data-time-inline="Your Default Time"</code> attribute.</p>
+                        </div>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" data-provider="timepickr" data-time-inline="11:42">
+                        </div>
+                    </div>-->
+
+                </div><!-- end card-body -->
+            </div><!-- end card -->
+
+            
+        </div>
+        <!-- end col -->
+    </div> <!-- end row -->
+
+</div> <!-- container -->
+
+
+<script src="~/js/test.js"></script>
+
+

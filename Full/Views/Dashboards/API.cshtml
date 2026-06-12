@@ -1,0 +1,375 @@
+
+@{
+    ViewBag.Title = "Tocame los huevos marinoli nievamente";
+}
+
+
+@await Html.PartialAsync("~/Views/Shared/Partials/_PageTitle.cshtml")
+<div class="container-fluid"> 
+    <div class="row mt-3"></div>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <div class="col-xxl-3 col-xl-6 order-xl-1 order-xxl-0">
+                            <div class="p-4 border-end border-dashed">
+                                <h4 class="fs-lg mb-1">BATTERY LINE</h4>
+                                <span class="text-muted">You have <span class="text-primary fw-semibold">42</span> messages and 6 notifications.</span>
+                                <ul class="list-group list-group-flush mt-3">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-primary avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">1</span></span>
+                                            Start machine.
+                                        </div>
+                                        <span class="text-muted">09:30 AM</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-info avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">2</span></span>
+                                            Maintenance in progress.
+                                        </div>
+                                        <span class="text-muted">11:00 AM</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-secondary avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">3</span></span>
+                                            Detecting issue
+                                        </div>
+                                        <span class="text-muted">01:15 PM</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-light avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">4</span></span>
+                                            Stop machine
+                                        </div>
+                                        <span class="text-muted">03:40 PM</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0">
+                                        <div>
+                                            <span class="badge text-bg-warning avatar-xs me-2"><span class="avatar-title fw-medium fs-sm">5</span></span>
+                                            Problem Detected DS09123
+                                        </div>
+                                        <span class="text-muted">05:10 PM</span>
+                                    </li>
+                                </ul>
+
+                                <div class="text-center mt-2">
+                                    <a href="#!" class="btn btn-secondary rounded-pill">View Messages</a>
+                                </div>
+                            </div> <!-- end .p-4-->
+                            <hr class="d-xxl-none border-light m-0">
+                        </div> <!-- end col-->
+                        <div class="col-xxl-6 order-xl-3 order-xxl-1">
+                            <div class="px-4 py-3 border-end border-dashed">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h4 class="card-title">Temperature and Humidity</h4>
+                                    <a href="#!" class="link-reset text-decoration-underline fw-semibold link-offset-3">View Reports <i class="ti ti-arrow-right"></i></a>
+                                </div>
+
+                                <div class="row text-center mb-3">
+                                    <div class="col">
+                                        <div class="bg-light bg-opacity-50 p-2">
+                                            <h5 class="m-0"><span class="text-muted">Temperature:</span>F <span data-target="40">0</span>F</h5>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="bg-light bg-opacity-60 p-2">
+                                            <h5 class="m-0"><span class="text-muted">Humidity:</span> <span data-target="50.9">0</span>%</h5>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div dir="ltr" class="position-relative">
+                                    <div class="py-2 px-3 rounded-3 bg-light-subtle border text-primary z-1 position-absolute" style="top: 4.5%; left: 12%;">
+                                        <p class="mb-2 text-uppercase fs-xxs fw-semibold">Humidity Rate</p>
+                                        <h4 class="mb-0 fw-bold text-default">19.24% <i class="ti ti-trending-up"></i></h4>
+                                    </div>
+                                    <div id="revenue-chart" style="min-height: 252px;"></div>
+                                </div>
+
+                            </div> <!-- end .px-4-->
+                        </div> <!-- end col-->
+                        <div class="col-xxl-3 col-xl-6 order-xl-2 order-xxl-2">
+                            <div class="p-3">
+                                <h4 class="card-title mb-1"> Project Progress</h4>
+                                <p class="text-muted fs-xs">
+                                    You have 21 projects with not completed task.
+                                </p>
+                                <div class="row mt-4">
+                                    <div class="col-lg-12">
+                                        <div dir="ltr">
+                                            <div id="project-progress-chart" style="min-height: 278px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-xxl-none border-light m-0">
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+                </div> <!-- end card-body-->
+            </div> <!-- end card-->
+        </div> <!-- end col-->
+    </div> <!-- end row-->
+    <div class="row">
+        <div class="row" id="data2">
+
+        </div>
+    </div>
+</div>
+<script src="~/plugins/echarts/echarts.min.js"></script>
+<script>
+    
+    $(document).ready(function(){
+        
+        dataArray = []
+        dateArray = []
+        $.getJSON("http://localhost:9089/system/webdev/Main/API/getTagsHistorical", function(data){
+            $.each(data.tagJSON, function(index, element){
+                dataArray.push(element.value)
+                dateArray.push(element.timestamp)
+            });
+            //console.log(dataArray);
+            //$("[id='revenue-chart']").empty();
+            const xLabels = dateArray;
+            new CustomEChart({
+            selector: '#revenue-chart',
+            options: () => ({
+                textStyle: {
+                    fontFamily: getComputedStyle(document.body).fontFamily
+                }, tooltip: {
+                    trigger: "axis",
+                    padding: [5, 0],
+                    backgroundColor: ins("secondary-bg"),
+                    borderColor: ins("border-color"),
+                    textStyle: {color: ins("light-text-emphasis")},
+                    borderWidth: 1,
+                    transitionDuration: 0.125,
+                    axisPointer: {type: "none"},
+                    shadowBlur: 2,
+                    shadowColor: "rgba(76, 76, 92, 0.15)",
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 1,
+                    formatter: function (params) {
+                        const title = params[0].name;
+                        let content = `<div style="font-size: 14px; font-weight: 600; text-transform: uppercase; border-bottom: 1px solid ${ins("border-color")}; margin-bottom: 8px; padding: 3px 10px 8px;">${title}</div>`;
+                        params.forEach(item => {
+                            let valueLabel = item.seriesName === "Total Revenue" ? `$${item.value}` : `${item.value} sales`;
+                            content += `<div style="margin-top: 4px; padding: 3px 15px;">
+                                    <span style="display:inline-block;margin-right:5px;border-radius:50%;width:10px;height:10px;background-color:${item.color};"></span>
+                                    ${item.seriesName} : <strong>${valueLabel}</strong>
+                                </div>`;
+                        });
+                        return content;
+                    }
+                }, xAxis: {
+                    type: "category", data: xLabels, boundaryGap: false, axisLine: {
+                        show: false
+                    }, axisTick: {show: false}, axisLabel: {
+                        color: ins("secondary-color"), margin: 15
+                    }, splitLine: {show: false}
+                }, yAxis: {
+                    type: "value", splitLine: {
+                        lineStyle: {
+                            color: "#676b891f", type: "dashed"
+                        }
+                    }, boundaryGap: false, axisLabel: {
+                        show: true, color: ins("secondary-color"), margin: 15, formatter: function (value) {
+                            return "$" + value;  // Format x-axis labels with a dollar sign
+                        }
+                    }, axisTick: {show: false}, axisLine: {show: false}
+                }, series: [{
+                    name: "Total Revenue",
+                    type: "line",
+                    smooth: true,
+                    symbolSize: 2,
+                    itemStyle: {
+                        color: ins("primary"), borderColor: ins("primary"), borderWidth: 2
+                    },
+                    areaStyle: {
+                        opacity: 0.2, color: ins("primary")
+                    },
+                    lineStyle: {
+                        color: ins("primary")
+                    },
+                    symbol: "circle",
+                    stack: "data",
+                    data: dataArray,
+                }, {
+                    name: "Orders",
+                    type: "line",
+                    smooth: true,
+                    symbolSize: 2,
+                    itemStyle: {
+                        color: ins("secondary"), borderColor: ins("secondary"), borderWidth: 2
+                    },
+                    areaStyle: {
+                        opacity: 0.2, color: ins("secondary")
+                    },
+                    lineStyle: {
+                        color: ins("secondary")
+                    },
+                    symbol: "circle",
+                    stack: "data",
+                    data: dataArray
+                }], grid: {
+                    right: 20, left: 5, bottom: 5, top: 8, containLabel: true
+                }
+            })
+        })
+
+
+
+
+        });
+        
+        let intervalId;
+        intervalId = setInterval(function(){
+            $.getJSON("http://localhost:9089/system/webdev/Main/API/getTagValue", function(data){
+                $.each(data.tagJSON, function(index, element){
+                    $("[id='"+ element.tagPath +"']").text(element.tagValue);
+                });
+            });
+
+            $.getJSON("http://localhost:9089/system/webdev/Main/API/getTagsHistorical", function(data){
+                console.log(data.tagJSON);
+            });
+
+        }, 1000);
+        //clearInterval(intervalId);
+
+        $.getJSON("http://localhost:9089/system/webdev/Main/API/getTagValue", function(data){
+
+            $.each(data.tagJSON, function(index, element){
+                $("[id='data2']").append('<div class="col-lg-4"><div class="card">' +
+                    '<div class="card-body">' +
+                        '<a href="#!" class="text-muted float-end mt-n1 fs-xl"><i class="ti ti-external-link"></i></a>' +
+                        '<h5 title="Number of Tasks">'+ element.name +'</h5>' +
+                        '<div class="d-flex align-items-center gap-2 my-3">' +
+                        '    <div class="avatar-md flex-shrink-0">' +
+                        '        <span class="avatar-title text-bg-light rounded-circle fs-22">' +
+                        '            <i class="ti ti-checklist"></i>' +
+                        '        </span>' +
+                        '    </div>' +
+                        '    <h3 class="mb-0"><span id="'+ element.tagPath +'" data-target="124">'+ element.tagValue +'</span></h3>' +
+                        '    <span class="badge badge-soft-primary fw-medium ms-2 fs-xs ms-auto">+3 New</span>' +
+                        '</div>' +
+                        '<p class="mb-0">' +
+                        '    <span class="text-primary"><i class="ti ti-point-filled"></i></span>' +
+                        '    <span class="text-nowrap text-muted">'+ element.tagPath +'</span>' +
+                        '    <span class="float-end"><b>12,450</b></span>' +
+                        '</p>' +
+                        '</div> ' +
+                    '</div></div>'
+                );                         
+            });
+
+
+        });
+
+
+        
+
+     
+        new CustomEChart({
+            selector: '#project-progress-chart',
+            options: () => ({
+                tooltip: {
+                    trigger: 'item',
+                    padding: [8, 15],
+                    backgroundColor: ins("secondary-bg"),
+                    borderColor: ins("border-color"),
+                    textStyle: {color: ins("light-text-emphasis")},
+                    borderWidth: 1,
+                    transitionDuration: 0.125,
+                    axisPointer: {type: "none"},
+                    shadowBlur: 2,
+                    shadowColor: "rgba(76, 76, 92, 0.15)",
+                    shadowOffsetX: 0,
+                    shadowOffsetY: 1,
+                }, textStyle: {
+                    fontFamily: getComputedStyle(document.body).fontFamily
+                }, series: [{
+                    name: 'Project Progress',
+                    type: 'pie',
+                    radius: [60, 100],
+                    center: ['50%', '50%'],
+                    roseType: 'area',
+                    itemStyle: {
+                        borderRadius: 8
+                    },
+                    label: {
+                        color: ins('secondary-color')
+                    },
+                    data: [{value: 85, name: 'Website Redesign', itemStyle: {color: ins('primary')}}, {
+                        value: 70,
+                        name: 'Mobile App',
+                        itemStyle: {color: ins('secondary')}
+                    }, {value: 55, name: 'CRM Integration', itemStyle: {color: ins('info')}}, {
+                        value: 60,
+                        name: 'Product Launch',
+                        itemStyle: {color: ins('success')}
+                    }, {value: 75, name: 'Backend Refactor', itemStyle: {color: ins('light')}}, {
+                        value: 50,
+                        name: 'Client Dashboard',
+                        itemStyle: {color: ins('warning')}
+                    }]
+                }]
+            })
+        })
+
+
+        // Function to generate random charity data
+        function generateRandomData() {
+            const charityNames = ['Charity A', 'Charity B', 'Charity C'];
+            const randomData = charityNames.map(name => ({
+                name: name, value: Math.floor(Math.random() * 100) + 1
+            }));
+            const total = randomData.reduce((sum, item) => sum + item.value, 0);
+            randomData.forEach(item => {
+                item.value = (item.value / total) * 100;
+            });
+            return randomData;
+        }
+
+        function initDonutChart(element) {
+
+            const charityData = generateRandomData();
+
+            new CustomEChart({
+                selector: element,
+                options: () => ({
+                    tooltip: {show: false}, series: [{
+                        type: 'pie',
+                        radius: ['60%', '100%'],
+                        hoverAnimation: false,
+                        label: {show: false},
+                        labelLine: {show: false},
+                        data: charityData.map((item, index) => ({
+                            value: item.value, itemStyle: {
+                                color: index === 0 ? ins('primary') : index === 1 ? ins('secondary') : "#bbcae14d"
+                            }
+                        }))
+                    }]
+                })
+            })
+        }
+
+        const donutCharts = document.querySelectorAll('.donut-chart');
+        if (donutCharts) {
+            donutCharts.forEach(initDonutChart)
+        }
+
+
+
+       
+
+
+
+
+
+
+    });
+</script>
+
+
+
