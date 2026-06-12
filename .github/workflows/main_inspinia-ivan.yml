@@ -30,17 +30,17 @@ jobs:
       - name: Restore NuGet Packages
         run: nuget restore Full/Inspinia.sln
 
-      # 4. Compilar la aplicación y empaquetarla en una carpeta lista para producción
+      # 4. Compilar la aplicación forzando una ruta de salida directa
       - name: Build and Package Web App
         run: |
-          msbuild Full/Inspinia.sln /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=false /p:OutDir=../build_output
+          msbuild Full/Inspinia.sln /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:publishUrl=../build_output
 
-      # 5. Guardar la carpeta empaquetada temporalmente en GitHub
+      # 5. Guardar la carpeta empaquetada que ahora está directamente en build_output
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: net-framework-app
-          path: build_output/_PublishedWebsites/Inspinia
+          path: build_output
 
   deploy:
     runs-on: windows-latest
