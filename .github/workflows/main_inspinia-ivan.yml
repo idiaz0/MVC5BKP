@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP.Net Core app to Azure Web App - inspinia-ivan
+name: Build and deploy ASP.Net Framework app to Azure Web App - inspinia-ivan
 
 on:
   push:
@@ -13,40 +13,48 @@ jobs:
   build:
     runs-on: windows-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.x'
+      # 1. Configurar las herramientas de compilación para aplicaciones de .NET clásicas
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      # 2. Configurar NuGet para restaurar los paquetes de tu solución
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      # 3. Descargar todas las librerías necesarias usando la ruta de tu subcarpeta 'Full'
+      - name: Restore NuGet Packages
+        run: nuget restore Full/Inspinia.sln
 
+      # 4. Compilar la aplicación y empaquetarla en una carpeta lista para producción
+      - name: Build and Package Web App
+        run: |
+          msbuild Full/Inspinia.sln /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=false /p:OutDir=../build_output
+
+      # 5. Guardar la carpeta empaquetada temporalmente en GitHub
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: net-framework-app
+          path: build_output/_PublishedWebsites/Inspinia
 
   deploy:
     runs-on: windows-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: net-framework-app
+          path: ./publish
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -61,5 +69,4 @@ jobs:
         with:
           app-name: 'inspinia-ivan'
           slot-name: 'Production'
-          package: .
-          
+          package: ./publish
